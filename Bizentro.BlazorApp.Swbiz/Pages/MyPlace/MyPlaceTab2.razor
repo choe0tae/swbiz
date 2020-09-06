@@ -1,0 +1,53 @@
+﻿@page "/myplace/notice"
+@attribute [Authorize]
+@inject NavigationManager NavigationManager
+@inject IStringLocalizer<MyPlace> dd
+
+
+    @if (Notices == null)
+    {
+        <text>Loading...</text>
+    }
+    else if (Notices.Length == 0)
+    {
+        <text>No Records Found.</text>
+    }
+    else
+    {
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>@dd["Tab2_No"]</th>
+                    <th>@dd["Tab2_Title"]</th>
+                    <th>@dd["Tab2_RegUser"]</th>
+                    <th>@dd["Tab2_RegDate"]</th>
+                    <th>@dd["Tab2_ReadCount"]</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var row in Notices)
+                {
+                    <tr>
+                        <td>@row.No</td>
+                        <td>@row.Title</td>
+                        <td>@row.ReqUser</td>
+                        <td>@row.ReqDate</td>
+                        <td>@row.ReadCount</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+
+@code {
+    Bizentro.Swbiz.DAL.Models.Notice.Notice[] Notices { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        //Inqueries = await client.GetFromJsonAsync<Developer[]>("api/developer");
+        await Task.Delay(100);
+
+        Notices = Bizentro.Swbiz.DAL.Models.Notice.Notice.GetList();
+    }
+}

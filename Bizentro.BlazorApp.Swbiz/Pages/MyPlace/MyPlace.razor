@@ -1,0 +1,47 @@
+﻿@page "/myplace"
+@attribute [Authorize]
+@inject NavigationManager NavigationManager
+@inject IStringLocalizer<MyPlace> dd
+
+<h3>My Place</h3>
+<hr class="sidebar-divider">
+<ul class="nav nav-tabs">
+    <li class="nav-item">
+        <a class="nav-link @tabActives[0]" href="" @onclick="@(() => OnTabSelectedChange(0))" @onclick:preventDefault>@dd["Tab1_Label"] </a>
+    </li>
+    <li class="nav-item dropdown">
+        <a class="nav-link @tabActives[1]" href="" @onclick="@(() => OnTabSelectedChange(1))" @onclick:preventDefault>@dd["Tab2_Label"] </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link @tabActives[2]" href="" @onclick="@(() => OnTabSelectedChange(2))" @onclick:preventDefault>@dd["Tab3_Label"] </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link @tabActives[3]" href="" @onclick="@(() => OnTabSelectedChange(3))" @onclick:preventDefault>@dd["Tab4_Label"] </a>
+    </li>
+</ul>
+@if (selectedTabIndex == 0)
+{
+    <MyPlaceTab1 />
+}
+else if (selectedTabIndex == 1)
+{
+    <MyPlaceTab2 />
+}
+
+@code {
+    int selectedTabIndex = 0;
+    string[] tabActives = new string[4] { "","","","" };
+
+    public void OnTabSelectedChange(int idx)
+    {
+        selectedTabIndex = idx;
+
+        for (int i = 0; i < tabActives.Length; i++)
+        {
+            if (i == idx)
+                tabActives[i] = "active";
+            else
+                tabActives[i] = "";
+        }
+    }
+}

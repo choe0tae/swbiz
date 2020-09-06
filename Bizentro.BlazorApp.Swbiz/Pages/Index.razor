@@ -1,0 +1,23 @@
+﻿@page "/"
+@inject NavigationManager navigationManager
+@inject SwbizAuthStateProvider authStateProvider
+
+   
+@code { 
+    //[CascadingParameter]
+    //Task<AuthenticationState> AuthenticationState { get; set; }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        //if (!(await AuthenticationState).User.Identity.IsAuthenticated)
+        await Task.Delay(100);
+        if (!authStateProvider.CurrentUser.IsAuthenticated)
+        {
+            navigationManager.NavigateTo("/login");
+        }
+        else
+        {
+            navigationManager.NavigateTo("/myplace");
+        }
+    }
+}

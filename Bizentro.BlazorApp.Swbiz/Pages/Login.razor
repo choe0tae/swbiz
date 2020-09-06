@@ -1,0 +1,87 @@
+﻿@page "/login"
+@layout LoginLayout
+@using System.Globalization
+@using Microsoft.AspNetCore.Localization
+@inject NavigationManager NavigationManager
+@inject IModalService Modal
+@inject IStringLocalizer<Login> dd
+<link rel="stylesheet" href="css/common.css" />
+<video playsinline="true" autoplay muted loop poster="~/img/bg_main_video.jpg" id="videoMain" class="video_main">
+    <source src="http://www.bizentro.com/swbiz/solution_pr/solution/unierp/videos/video_main.mp4" type="video/mp4">
+</video>
+<div class="bg_dim"></div>
+<div id="wrap">
+    <div id="head">
+        <div class="head_wrap">
+            <a href="javascript:link(9);" class="logo_head"><img src="/img/logo_head.png" alt="BIZENTRO" /></a>
+            <div class="lang_wrap">
+                <select class="form-control" name="langtype" @onchange="OnSelectedLanguage" value="@currentLang">
+                    <option value="ko-KR">@dd["SupportLanguage_KO"]</option>
+                    <option value="en-US">@dd["SupportLanguage_EN"]</option>
+                    <option value="vi-VN">@dd["SupportLanguage_VN"]</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div id="container">
+        <div class="ma_cont">
+            <div class="ma_wrap">
+                <div class="ma_tit_wrap">
+                    <h1 class="tit">Digital Transformation Solution No.1</h1>
+                    <p class="txt">BIZENTRO</p>
+                </div>
+                <h2 class="ma_tit_01">@dd["Title"]</h2>
+                <div class="ma_btn_wrap">
+                    <a href="javascript:link(9,18);" class="btn btn_b_white">@dd["Register"]</a>
+                    <a href="" @onclick="@(() => Modal.Show<LoginPopup>())" @onclick:preventDefault class="btn btn_red">@dd["Login"]</a>
+                </div>
+                <ul class="ma_menu">
+                    <li><a href="/swbiz/incident/anonyQst.do" class="ma_menu_01">@dd["MenuLabel1"]</a></li>
+                    <li><a href="http://ezh.kr/bizentro" target="_blank" class="ma_menu_02">@dd["MenuLabel2"]</a></li>
+                    <li>
+                        <a href="#" class="ma_menu_03">
+                            <h3 class="tit">@dd["MenuLabel3"]</h3>
+                            <p class="txt">
+                                1588-4788 / 080-500-2020
+                                <br />
+                                09:00 ~ 18:00(@dd["MenuLabel4"])
+                            </p>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div id="foot">
+        <div class="foot_wrap">
+            <div class="foot_info">
+                <p class="txt">본사 : 경기도 성남시 분당구 대왕판교로 660, A동 10층(삼평동, 유스페이스1) I 국내지사: 창원, 구미, 광주 I 해외지사: 베트남(하노이), 중국(소주)</p>
+                <p class="txt">TEL 1588-4788, 080-500-2020  / FAX 031-719-0500     Copyright © Bizentro All right reserved</p>
+            </div>
+            <ul class="foot_link">
+                <li><a href="javascript:pop('http://unierp.com/swbiz/popup/emailReject.html','email_reject','450','290');">이메일 무단수집거부</a></li>
+                <li><a href="javascript:pops('http://unierp.com/swbiz/popup/policy.html','individualInfo','620','610');">개인정보  취급방침</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+@code {
+    public string currentLang = "en-US";
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        currentLang = CultureInfo.CurrentCulture.TextInfo.CultureName;
+    }
+
+
+    public void OnSelectedLanguage(ChangeEventArgs e)
+    {
+        var culture = (string)e.Value;
+        var uri = new Uri(NavigationManager.Uri).GetComponents(UriComponents.PathAndQuery, UriFormat.Unescaped);
+        var query = $"?culture={Uri.EscapeDataString(culture)}&" +
+            $"redirectUri={Uri.EscapeDataString(uri)}";
+
+        NavigationManager.NavigateTo("/Culture/SetCulture" + query, forceLoad: true);
+    }
+}

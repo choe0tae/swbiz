@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Blazored.Modal" Version="5.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Pages\FAQ\" />
+    <Folder Include="Pages\PDS\" />
+    <Folder Include="Pages\Notice\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Bizentro.Swbiz.DAL\Bizentro.Swbiz.DAL.csproj" />
+  </ItemGroup>
+
+</Project>
